@@ -1,25 +1,109 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.7.34202.233
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{7B17C31E-492D-456A-B26B-4CBF62330B51}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B17C31E-492D-456A-B26B-4CBF62330B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B17C31E-492D-456A-B26B-4CBF62330B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B17C31E-492D-456A-B26B-4CBF62330B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B17C31E-492D-456A-B26B-4CBF62330B51}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ED293F81-4884-442C-BCC1-CAB2EF728317}
-	EndGlobalSection
-EndGlobal
+using System.Security.Cryptography;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        char choise;
+        Console.WriteLine("Hello, World!");
+        library newBook = new library("0","0",0,0);
+        while (true)
+        {
+            Console.WriteLine("**********************************************************");
+            Console.WriteLine("LIBRARY MANIGMENT SYSTEM");
+            Console.WriteLine("1. Add a Book");
+            Console.WriteLine("2. Disblay Book");
+            Console.WriteLine("3. Serch by Titel");
+            Console.WriteLine("4. Serch by ID");
+            Console.WriteLine("5. Exit");
+            choise =Char.Parse(Console.ReadLine());
+            switch (choise)
+            {
+                case '1':
+                    Console.WriteLine("enter the Titel : ");
+                    string TITEL = Console.ReadLine();
+                    Console.WriteLine("enter the Auther : ");
+                    string AUTHER = Console.ReadLine();
+                    Console.WriteLine("enter the ID : ");
+                    int ID =Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("enter the publitied year : ");
+                    int PUBLITIONYEAR = Convert.ToInt32(Console.ReadLine());
+                    newBook.Set(TITEL,AUTHER,ID,PUBLITIONYEAR);
+                    break;
+
+                case '2':
+                    newBook.get();
+                    break;
+            }
+        }
+
+    }
+}
+
+ class Book
+{   // THE VARIABYLS AS PRotected to inheret to the library class
+     
+    protected int Id , PublitiYear;
+    protected string Titel , Auther ;
+
+    // THE CONSTRACTOR
+    public Book(string _Titel, string _Auther, int _Id, int _PublitiYear)
+    {
+        Titel = _Titel;
+        Auther = _Auther;
+        Id = _Id;
+        PUBLITIONYEAR= _PublitiYear;
+    }
+    //THE PROPARTES
+    public int ID
+    {
+        set { Id = value; }
+        get { return Id; }
+    }
+    public int PUBLITIONYEAR
+    {
+        set { PublitiYear = value; }
+        get { return PublitiYear; }
+    }
+    public string TITEL
+    {
+        set { Titel = value; }
+        get { return Titel; }
+    }
+    public string AUTHER
+    {
+        set { Auther = value; }
+        get { return Auther; }
+    }
+
+}
+
+ class library :Book
+{   // a list to store the data
+    List<Book> books = new List<Book>();
+
+    // a constructor based on the inhereted Book class
+    public library(string _Titel, string _Auther, int _Id, int _PublitiYear) : base(_Titel, _Auther, _Id, _PublitiYear){}
+
+    // a set method to store the data
+    public void Set(string _Titel, string _Auther, int _Id, int _PublitiYear)
+    {
+        Titel = _Titel;
+        Auther = _Auther;
+        Id = _Id;
+        PublitiYear = _PublitiYear;
+
+        books.Add(new Book(Titel, Auther, Id, PublitiYear));
+    }
+    // a get method to display the data
+    public void get()
+    {
+        foreach (Book book in books) 
+        {
+            Console.WriteLine($"The Titel : "+Titel);
+            Console.WriteLine($"The Auther : " + Auther);
+            Console.WriteLine($"The ID : " + Id);
+            Console.WriteLine($"The Publitied Year : " + PublitiYear);
+        }
+    }
+}
